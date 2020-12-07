@@ -12,7 +12,7 @@ public class Main
     public static void main(String []args) throws SQLException
     {
         String JDBC = "com.mysql.jdbc.Driver";
-        String URL = "jdbc:mysql://10.0.10.3:3306/persons";
+        String URL = "jdbc:mysql://10.10.10:3306/persons";
         String USER = "pkoryga";
         String PASSWORD = "haslo";
         Connection conn = null;
@@ -21,7 +21,8 @@ public class Main
         
         int option = 0;
         try
-        {
+        {	
+			Class.forName(JDBC);
             while(conn == null)
             {
                     try {
@@ -37,14 +38,17 @@ public class Main
                             System.out.println(e);
                         }
             }
-            
+				
                 System.out.println("Połączono!");
                 String imie = null;
                 String nazwisko = null;
                 int id = 0;
+				
+				
                 while (option != 5)
                 {
                     showMenu();
+					System.out.println("cos sie robi");
                     option = scanner.nextInt();
                     switch(option)
                     {
@@ -129,7 +133,7 @@ public class Main
                 String person_name = result.getString("name");
                 String person_surname = result.getString("surname");
                 
-                System.out.println("id: " + person_id + " Imie: " + person_name + "Nazwisko: " + person_surname);
+                System.out.println("id: " + person_id + " Imie: " + person_name + " Nazwisko: " + person_surname);
             }
             result.close();
         }
