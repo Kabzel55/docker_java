@@ -1,0 +1,35 @@
+version: '3.7'
+services: 
+  cloud2020-88721:
+    image: mysql:5
+    environment:
+        MYSQL_ROOT_USER: pkoryga
+        MYSQL_ROOT_PASSWORD: haslo
+        MYSQL_DATABASE: persons
+        MYSQL_USER: pkoryga
+        MYSQL_PASSWORD: haslo
+    volumes: 
+        - ./mysql/insert.sql:/docker-entrypoint-initdb.d/insert.sql
+    networks:
+      Bridge-zadanie-1:
+        ipv4_address: 10.0.10.3
+    ports: 
+      - "3306:3306"
+
+  javaapp:
+    build:
+        context: ./java
+    restart: on-failure
+    depends_on:
+        - cloud2020-88721
+    container_name: javaapp
+    networks:
+      - Bridge-zadanie-1
+    stdin_open: true
+    tty: true
+networks: 
+  Bridge-zadanie-1:
+    driver: bridge
+    ipam: 
+      config: 
+        - subnet: 10.0.10.0/24   
